@@ -4,6 +4,9 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
+//importing the android bundle ,for navigator
+import android.os.Bundle;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -37,4 +40,10 @@ public class MainActivity extends ReactActivity {
       return reactRootView;
     }
   }
+
+  //overriding the code  for the package rquires one additional donfiguration step to properly work on Android devices.
+  @Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
 }

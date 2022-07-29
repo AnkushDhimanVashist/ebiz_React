@@ -9,6 +9,9 @@
 import React, { useState } from 'react';
 import type { Node } from 'react';
 
+import SuccessBtn from './android/app/src/components/customButton';
+import MyHeader from './android/app/src/components/myHeader';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -27,7 +30,8 @@ import {
   Pressable,
   Alert,
   ToastAndroid,
-  Modal
+  Modal,
+  ImageBackground
 } from 'react-native';
 
 import {
@@ -38,6 +42,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { transformFileSync } from '@babel/core';
+
+//importing  the NavigationContainer from the  react-navigatin/stack
+import { NavigationContainer } from '@react-navigation/native';
+//importing the createStackNavigator function to create a stack
+import { createStackNavigator } from '@react-navigation/stack';
 
 
 // const Section = ({ children, title }): Node => {
@@ -65,6 +74,9 @@ import { transformFileSync } from '@babel/core';
 //     </View>
 //   );
 // };
+
+
+
 
 const App = () => {
   // const [name,setName]= useState('Ankush');
@@ -260,6 +272,7 @@ const App = () => {
   const [name, setName] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [warnModal, setwarnModal] = useState(false);
+  const [title, setTitle] = useState('');
   // const [val, setVal] = useState('');
   const onPressHandler = () => {
 
@@ -285,11 +298,11 @@ const App = () => {
   }
   //clear content function
 
-   const clearContentfunc = () => {
-  
+  const clearContentfunc = () => {
+
     setSubmitted(false);
     setName('');
-    
+
   }
 
 
@@ -298,93 +311,109 @@ const App = () => {
   GoBackBtnAction = () => {
     setwarnModal(false)
   }
-   const onChangeTextHandler = (value) => {
+  const onChangeTextHandler = (value) => {
     setName(value);
     // setVal(value);
-    
+
   }
+  //creating a stack for the  stack nvaigator 
 
-
+  
 
   return (
-    // <View style={styles.body}> 
-    //   <Text style={styles.text}> 
-    //     Please wreite your name:
-    //   </Text>
-    //   <TextInput style={styles.input} onChangeText={(value) => setName(value)}  onFocus={onFocusHandler} onBlur={onFocusHandler}></TextInput>
-    //   <Button title="Submit" color='green' onPress={onPressHandler}></Button>
-    //   {submitted ?
-    //     <Text style={styles.text}>
-    //       My name is: {name}
-    //     </Text> : null
-    //     }
-    //  </View>
-
-    //creating a  button using touchableOpacity that has many more option to customize the buttons
+    
 
 
-    // <View style={styles.body}>
-    //   <TouchableOpacity style={styles.touchableBtn} onPress={onPressHandler}>
-    //     <Text style={styles.text}>Submit </Text>
-    //   </TouchableOpacity>
-    //   <Text style={styles.text}> My name is: {name}</Text>
-    // </View>
-    <View style={styles.body}>
-      <Modal visible={warnModal} onRequestClose={() => setwarnModal(false)} transparent animationType='fade' accessibilityActions={true}>
-        <View style={styles.warning_container}>
-          <View style={styles.warning_modal_content}>
-            <View style={styles.warning_container_header}>
-              <Text style={styles.warning_model_text_color}>Warning!</Text>
-            </View>
-            <View style={styles.warning_container_content}>
-              <Text style={styles.warning_model_text_color}>Input field is empty!</Text>
-            </View>
-            <View style={styles.warning_container_goBackBtn}>
-              <Pressable style={styles.gobackBtn} onPress={GoBackBtnAction} android_ripple={{ color: '#000', borderless: false, radius: 49 }}>
-                <Text style={[styles.text, styles.gobackBtnText]}>Go Back</Text>
-              </Pressable>
+        // <View style={styles.body}> 
+        //   <Text style={styles.text}> 
+        //     Please wreite your name:
+        //   </Text>
+        //   <TextInput style={styles.input} onChangeText={(value) => setName(value)}  onFocus={onFocusHandler} onBlur={onFocusHandler}></TextInput>
+        //   <Button title="Submit" color='green' onPress={onPressHandler}></Button>
+        //   {submitted ?
+        //     <Text style={styles.text}>
+        //       My name is: {name}
+        //     </Text> : null
+        //     }
+        //  </View>
 
-            </View>
-
-          </View>
-        </View>
+        //creating a  button using touchableOpacity that has many more option to customize the buttons
 
 
-      </Modal>
-      <View style={styles.Btn_container}>
-        <Pressable style={styles.touchableBtn} onPress={onPressHandler} >
+        // <View style={styles.body}>
+        //   <TouchableOpacity style={styles.touchableBtn} onPress={onPressHandler}>
+        //     <Text style={styles.text}>Submit </Text>
+        //   </TouchableOpacity>
+        //   <Text style={styles.text}> My name is: {name}</Text>
+        // </View>
+
+         <ScrollView style={styles.body} >
+          <ImageBackground style={styles.backgroun_Image} source={require('./android/app/src/assets/images/background_image/backgtound1.jpg')}>
+            <MyHeader />
+
+            <Modal visible={warnModal} onRequestClose={() => setwarnModal(false)} transparent animationType='fade' accessibilityActions={true}>
+              <View style={styles.warning_container}>
+                <View style={styles.warning_modal_content}>
+                  <View style={styles.warning_container_header}>
+                    <Text style={styles.warning_model_text_color}>Warning!</Text>
+                  </View>
+                  <View style={styles.warning_container_content}>
+                    <Text style={styles.warning_model_text_color}>Input field is empty!</Text>
+                  </View>
+                  <View style={styles.warning_container_goBackBtn}>
+                    <Pressable style={styles.gobackBtn} onPress={GoBackBtnAction} android_ripple={{ color: '#000', borderless: false, radius: 49 }}>
+                      <Text style={[styles.text, styles.gobackBtnText]}>Go Back</Text>
+                    </Pressable>
+
+                  </View>
+
+                </View>
+              </View>
+
+
+            </Modal>
+            <View style={styles.main_section}>
+              <View style={styles.Btn_container}>
+                <SuccessBtn onPressFunction={onPressHandler} title="Submit" color={'#00f'} /> 
+
+
+                {/* <Pressable style={styles.touchableBtn} onPress={onPressHandler} >
           <Text style={styles.text}>Submit </Text>
-        </Pressable>
-        {/* <Pressable style={styles.touchableBtn} onPress={()=>{setName(''),setSubmitted(false)}} > */}
-        <Pressable style={styles.touchableBtn} onPress={clearContentfunc} >
+        </Pressable> */}
+                {/* <Pressable style={styles.touchableBtn} onPress={()=>{setName(''),setSubmitted(false)}} > */}
+                {/* <Pressable style={styles.touchableBtn} onPress={clearContentfunc} >
           <Text style={styles.text}>Clear </Text>
-        </Pressable>
-      </View>
+        </Pressable> */}
+                 <SuccessBtn onPressFunction={clearContentfunc} title="Clear" color={'#e83845'} />
+              </View>
 
-      <TextInput value={name} style={styles.Input_text} onChangeText={onChangeTextHandler}>
+              <TextInput value={name} style={styles.Input_text} onChangeText={onChangeTextHandler}>
 
-      </TextInput>
-      {
-        submitted ?
-          <View style={styles.success_msg_container}>
-            <Text style={styles.text}> My name is: {name} </Text>
-            
-            <Image style={styles.error_image} source={require('./android/app/src/assets/images/success_image/done.png')}></Image>
-          </View>
-          : 
-          <View style={styles.success_msg_container}>
-            <Text style={styles.text}>No name is set!</Text>
-            <Image style={styles.error_image} source={require('./android/app/src/assets/images/error_image/error.png')}></Image>
+              </TextInput>
+              {
+                submitted ?
+                  <View style={styles.success_msg_container}>
+                    <Text style={styles.text}> My name is: {name} </Text>
+
+                    <Image style={styles.error_image} source={require('./android/app/src/assets/images/success_image/done.png')}></Image>
+                  </View>
+                  :
+                  <View style={styles.success_msg_container}>
+                    <Text style={styles.text}>No name is set!</Text>
+                    <Image style={styles.error_image} source={require('./android/app/src/assets/images/error_image/error.png')}></Image>
+                  </View>
+              }
             </View>
-      }
-
-
-    </View>
 
 
 
+          </ImageBackground>
+        </ScrollView>
+ 
 
 
+
+      
   )
 };
 
@@ -392,14 +421,23 @@ const App = () => {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#099',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
   text: {
     color: '#fff',
     fontSize: 20,
 
+  },
+  main_section: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backgroun_Image: {
+    width: '100%',
+    height: 750,
   },
   // all buttons
   touchableBtn: {
